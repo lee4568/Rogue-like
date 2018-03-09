@@ -27,12 +27,13 @@ public abstract class UIItemSlot : MonoBehaviour
 	string mText = "";
 
 	static InvGameItem mDraggedItem;
+    internal Sprite sprite;
 
-	/// <summary>
-	/// This function should return the item observed by this UI class.
-	/// </summary>
+    /// <summary>
+    /// This function should return the item observed by this UI class.
+    /// </summary>
 
-	abstract protected InvGameItem observedItem { get; }
+    abstract protected InvGameItem observedItem { get; }
 
 	/// <summary>
 	/// Replace the observed item with the specified value. Should return the item that was replaced.

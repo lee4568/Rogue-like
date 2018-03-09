@@ -13,8 +13,9 @@ using UnityEngine;
 public class EquipItems : MonoBehaviour
 {
 	public int[] itemIDs;
+    internal readonly Sprite sprite;
 
-	void Start ()
+    void Start ()
 	{
 		if (itemIDs != null && itemIDs.Length > 0)
 		{
