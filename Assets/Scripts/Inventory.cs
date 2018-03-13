@@ -45,7 +45,7 @@ public class Inventory : MonoBehaviour {
                 newSlot.name = "Slot" + (y + 1) + "." + (x + 1);
 
                 newSlot.parent = transform;
-                                
+                                             
                 newSlot.localScale = new Vector3(0.8f,0.8f,0.7f);
 
                 slotScripts.Add(newSlot.GetComponent<Slot>());
@@ -85,7 +85,7 @@ public class Inventory : MonoBehaviour {
         else
         {
             _slot.transform.GetChild(0).gameObject.SetActive(true);
-            _slot.transform.GetChild(0).GetComponent<Item>().itemName = _slot.item.itemImage;
-                }
+            _slot.transform.GetChild(0).GetComponent<UITexture>().mainTexture = _slot.item.itemImage;
+        }
     }
 }
