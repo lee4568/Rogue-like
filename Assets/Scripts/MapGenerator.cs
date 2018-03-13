@@ -32,17 +32,15 @@ public class MapGenerator : MonoBehaviour {
         {
             for (int x = 0; x < mapSize.x; x++)
             {
-                Vector3 tileposition = new Vector3(-mapSize.x / 2 + 0.5f + x, -mapSize.y / 2 + 0.5f + y, 0);
+                Vector3 tileposition = new Vector3(-mapSize.x / 5 + 5f + x, -mapSize.y / 5 + 5f + y, 0);
                 Transform newTile = Instantiate(tilePrefab, tileposition, Quaternion.Euler(Vector3.up)) as Transform;
-                newTile.localScale = Vector3.one * (1 - Outline);
+                newTile.localScale = Vector3.one * (0.1f - Outline);
                 newTile.parent = mapHolder;
                 
-                newTile.name = ("Tile"+ 1).ToString();
-               
+                newTile.name = "Tile" + (x + 1) + "." + (y + 1);
+
 
             }
-            list.Add("line");
-
         }
     }
 

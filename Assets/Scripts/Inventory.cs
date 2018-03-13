@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class Inventory : MonoBehaviour {
 
     public static Inventory instance;
@@ -15,26 +14,39 @@ public class Inventory : MonoBehaviour {
     public List<Slot> slotScripts = new List<Slot>();
 
     public Slot enteredSlot;
-    
+
+    public UITexture InventoryBg;
+
     void Awake()
     {
         instance = this;
+     
     }
     
 	void Start ()
     {
-        for (int x = 0; x < 5; x++)
+        for (int y = 0; y < 5; y++)
         {
-            for (int y = 0; y < 5; y++)
+            for (int x = 0; x < 4; x++)
             {
-                Transform newSlot = Instantiate(slot);
-                newSlot.name = "Slot" + (x + 1) + "." + (y + 1);
+               Vector3 slotRect = new Vector3((-InventoryBg.transform.position.x / 2f)+ 0.25f * x ,(InventoryBg.transform.position.y * 4.5f) - 0.25f * y, 0);
+
+                //float xmin, ymin, xmax, ymax;
+
+                //slotRect = Rect.MinMaxRect(xmin(0.1f * y + 0.025f),ymin(0.1f * (x + 1.5f) - 0.025f), xmax(0.1f * (y + 1.5f) - 0.025f),ymax(1 - (0.1f * x + 0.025f)));
+
+                //newSlot.GetComponent<RectTransform>();
+                //slotRect.anchorMin = new Vector2(0.1f * y + 0.025f, 1 - (0.1f * (x + 1.5f) - 0.025f));
+                //slotRect.anchorMax = new Vector2(0.1f * (y +1.5f)- 0.025f, 1 - (0.1f * x + 0.025f));
+                //slotRect.offsetMin = Vector2.zero;
+                //slotRect.offsetMax = Vector2.zero;
+
+                Transform newSlot = Instantiate(slot, slotRect, Quaternion.Euler(0,0,0))as Transform;
+                newSlot.name = "Slot" + (y + 1) + "." + (x + 1);
+
                 newSlot.parent = transform;
-                RectTransform slotRect = newSlot.GetComponent<RectTransform>();
-                slotRect.anchorMin = new Vector2(0.1f * y + 0.025f, 1 - (0.1f * (x + 1.5f) - 0.025f));
-                slotRect.anchorMax = new Vector2(0.1f * (y +1.5f)- 0.025f, 1 - (0.1f * x + 0.025f));
-                slotRect.offsetMin = Vector2.zero;
-                slotRect.offsetMax = Vector2.zero;
+                                
+                newSlot.localScale = new Vector3(0.8f,0.8f,0.7f);
 
                 slotScripts.Add(newSlot.GetComponent<Slot>());
                 newSlot.GetComponent<Slot>().number = x * 5 + y;
@@ -47,8 +59,6 @@ public class Inventory : MonoBehaviour {
         AddItem(4);
         AddItem(5);
         
-
-
     }
 	
 
@@ -75,7 +85,7 @@ public class Inventory : MonoBehaviour {
         else
         {
             _slot.transform.GetChild(0).gameObject.SetActive(true);
-            _slot.transform.GetChild(0).GetComponent<Image>().sprite = _slot.item.itemImage;
-        }
+            _slot.transform.GetChild(0).GetComponent<Item>().itemName = _slot.item.itemImage;
+                }
     }
 }
