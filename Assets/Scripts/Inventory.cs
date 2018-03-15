@@ -15,12 +15,11 @@ public class Inventory : MonoBehaviour {
    
     public Slot enteredSlot;
 
-    public UITexture InventoryBg;
+    public Transform InventoryBg;
 
     void Awake()
     {
         instance = this;
-     
     }
     
 	void Start ()
@@ -29,9 +28,12 @@ public class Inventory : MonoBehaviour {
         {
             for (int x = 0; x < 4; x++)
             {
-               Vector3 slotRect = new Vector3((-InventoryBg.transform.position.x / 2f)+ 0.25f * x ,(InventoryBg.transform.position.y * 4.5f) - 0.25f * y, 0);
+                Vector3 slotRect = new Vector3((-InventoryBg.transform.position.x / 2f)+ 0.25f * x ,(InventoryBg.transform.position.y * 4.5f) - 0.25f * y, 0);
+                
+                //Transform newSlot = Instantiate(slot);
 
-                //newSlot.GetComponent<RectTransform>();
+                //RectTransform slotRect = newSlot.GetComponent<RectTransform>();
+
                 //slotRect.anchorMin = new Vector2(0.1f * y + 0.025f, 1 - (0.1f * (x + 1.5f) - 0.025f));
                 //slotRect.anchorMax = new Vector2(0.1f * (y +1.5f)- 0.025f, 1 - (0.1f * x + 0.025f));
                 //slotRect.offsetMin = Vector2.zero;
@@ -46,7 +48,7 @@ public class Inventory : MonoBehaviour {
                 newSlot.localScale = new Vector3(0.8f,0.8f,0.7f);
 
                 slotScripts.Add(newSlot.GetComponent<Slot>());
-                //newSlot.GetComponent<Slot>().number = x * 5 + y;
+                newSlot.GetComponent<Slot>().number = x * 5 + y;
             }
         }
         AddItem(0);
@@ -55,15 +57,15 @@ public class Inventory : MonoBehaviour {
         AddItem(3);
         AddItem(4);
         AddItem(5);
-        
-    }
-	
 
-	void AddItem(int number)
+    }
+
+
+    void AddItem(int number)
     {
         for (int i = 0; i < slotScripts.Count; i++)
         {
-            if(slotScripts[i].item.itemValue == 0)
+            if (slotScripts[i].item.itemValue == 0)
             {
                 slotScripts[i].item = ItemDatabase.instance.items[number];
                 ItemImageChange(slotScripts[i]);
@@ -75,9 +77,9 @@ public class Inventory : MonoBehaviour {
 
     public void ItemImageChange(Slot _slot)
     {
-        if(_slot.item.itemValue <= 0)
+
+        if (_slot.item.itemValue <= 0)
         {
-            Debug.Log(_slot.item.itemValue);
             _slot.transform.GetChild(0).gameObject.SetActive(false);
         }
         else
