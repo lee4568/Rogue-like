@@ -12,7 +12,7 @@ public class Inventory : MonoBehaviour {
     public Transform slot;
 
     public List<Slot> slotScripts = new List<Slot>();
-
+   
     public Slot enteredSlot;
 
     public UITexture InventoryBg;
@@ -31,10 +31,6 @@ public class Inventory : MonoBehaviour {
             {
                Vector3 slotRect = new Vector3((-InventoryBg.transform.position.x / 2f)+ 0.25f * x ,(InventoryBg.transform.position.y * 4.5f) - 0.25f * y, 0);
 
-                //float xmin, ymin, xmax, ymax;
-
-                //slotRect = Rect.MinMaxRect(xmin(0.1f * y + 0.025f),ymin(0.1f * (x + 1.5f) - 0.025f), xmax(0.1f * (y + 1.5f) - 0.025f),ymax(1 - (0.1f * x + 0.025f)));
-
                 //newSlot.GetComponent<RectTransform>();
                 //slotRect.anchorMin = new Vector2(0.1f * y + 0.025f, 1 - (0.1f * (x + 1.5f) - 0.025f));
                 //slotRect.anchorMax = new Vector2(0.1f * (y +1.5f)- 0.025f, 1 - (0.1f * x + 0.025f));
@@ -42,6 +38,7 @@ public class Inventory : MonoBehaviour {
                 //slotRect.offsetMax = Vector2.zero;
 
                 Transform newSlot = Instantiate(slot, slotRect, Quaternion.Euler(0,0,0))as Transform;
+
                 newSlot.name = "Slot" + (y + 1) + "." + (x + 1);
 
                 newSlot.parent = transform;
@@ -49,7 +46,7 @@ public class Inventory : MonoBehaviour {
                 newSlot.localScale = new Vector3(0.8f,0.8f,0.7f);
 
                 slotScripts.Add(newSlot.GetComponent<Slot>());
-                newSlot.GetComponent<Slot>().number = x * 5 + y;
+                //newSlot.GetComponent<Slot>().number = x * 5 + y;
             }
         }
         AddItem(0);
@@ -78,8 +75,9 @@ public class Inventory : MonoBehaviour {
 
     public void ItemImageChange(Slot _slot)
     {
-        if(_slot.item.itemValue == 0)
+        if(_slot.item.itemValue <= 0)
         {
+            Debug.Log(_slot.item.itemValue);
             _slot.transform.GetChild(0).gameObject.SetActive(false);
         }
         else

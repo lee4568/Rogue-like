@@ -6,11 +6,11 @@ public class Move : MonoBehaviour {
 
     public int hp = 10;
 
-    float speed = 10;
+    float speed = 5;
 
 	void Start ()
     {
-		
+        unitSTATE unitstate = GetComponent<unitSTATE>();
 	}
 	
 	
@@ -38,7 +38,6 @@ public class Move : MonoBehaviour {
         //    GetComponent<Animator>().Play("Cleric Idle");
         //}
 
-
-
+      
     }
 }

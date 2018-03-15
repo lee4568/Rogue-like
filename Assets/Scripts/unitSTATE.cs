@@ -30,6 +30,8 @@ public class unitSTATE : MonoBehaviour {
 	
 	void Update ()
     {
+        
+
         switch (unitstate)
         {
             case UNITSTATE.IDLE:
@@ -78,7 +80,7 @@ public class unitSTATE : MonoBehaviour {
             target = GameObject.FindGameObjectWithTag("Player").transform;
             
             unitstate = UNITSTATE.WALK; // 유닛스테이트를 워크로 변경한다.
-            Debug.Log(target);
+            
         }
      
         if(hp <= 0)
