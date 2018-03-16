@@ -9,7 +9,7 @@ public class MapSc : MonoBehaviour
     void Start()
     {
         int map = Random.Range(0, 6);
-
+        Debug.Log(map);
         switch (map)
         {
             case 0:

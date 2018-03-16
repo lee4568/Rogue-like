@@ -6,36 +6,52 @@ public class unitSTATE : MonoBehaviour {
 
     public UNITSTATE unitstate;
 
-    Transform target;
+    public Transform target;
 
     float STATETIME;
-    float ATTACKTIME;
+    float ATTACKTIME = 7f;
+
+    public GameObject Door;
 
     public int hp = 10;
 
     float speed = 1f;
 
+    public Move playstate;
+
     public enum UNITSTATE
     {
         IDLE,
         WALK,
+        DAMAGE,
         ATTACK,
         DEAD
     }
 
+    void Awake()
+    {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        
+    }
+
 	void Start ()
     {
- 
-	}
+        
+    }
 	
 	void Update ()
     {
-        
+        if(hp <= 0)
+        {
+            unitstate = UNITSTATE.DEAD;
+        }
 
+      
         switch (unitstate)
         {
             case UNITSTATE.IDLE:
 
+                
                 break;
 
             case UNITSTATE.WALK:
@@ -52,7 +68,18 @@ public class unitSTATE : MonoBehaviour {
 
                 break;
 
+            case UNITSTATE.DAMAGE:
+
+                
+
+                break;
+
             case UNITSTATE.ATTACK:
+                STATETIME += Time.deltaTime;
+                if(STATETIME == ATTACKTIME)
+                {
+                    
+                }
 
                 float distance1 = (target.position - transform.position).magnitude;
                 if (distance1 >= 2f)
@@ -67,27 +94,25 @@ public class unitSTATE : MonoBehaviour {
                 if(hp == 0)
                 {
                     Destroy(gameObject);
+
+                    Door.SetActive(true);
+                }
+                else
+                {
+                    Door.SetActive(false);
                 }
                 
                 break;
         }
     }
 
-    void OnTriggerEnter(Collider col)
+   public void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Player") // 만약 충돌한 오브젝트의 태그가 플레이어라면
         {
-            target = GameObject.FindGameObjectWithTag("Player").transform;
-            
             unitstate = UNITSTATE.WALK; // 유닛스테이트를 워크로 변경한다.
+        }
             
-        }
-     
-        if(hp <= 0)
-        {
-            hp = 0;
-            unitstate = UNITSTATE.DEAD;
-        }
     }
 
     void OnTriggerExit(Collider col)

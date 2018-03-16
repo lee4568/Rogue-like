@@ -10,7 +10,9 @@ public class DoorCs : MonoBehaviour
         if(col.gameObject.tag == "Player")
         {
             Debug.Log("이동하시겠습니까?");
+            Application.LoadLevel(1);
         }
+        
     }
 
 }
