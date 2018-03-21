@@ -8,16 +8,20 @@ public class unitSTATE : MonoBehaviour {
 
     public Transform target;
 
-    float STATETIME;
-    float ATTACKTIME = 7f;
+    public Transform door;
 
-    public GameObject Door;
+
+    public float STATETIME;
+    public float ATTACKTIME;
 
     public int hp = 10;
+    public int EnemyAtk;
 
     float speed = 1f;
+        
+    public Vector3 direction;
 
-    public Move playstate;
+    RaycastHit hit;
 
     public enum UNITSTATE
     {
@@ -31,27 +35,47 @@ public class unitSTATE : MonoBehaviour {
     void Awake()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        
+        door = GameObject.FindGameObjectWithTag("Object").transform;
     }
 
 	void Start ()
     {
-        
-    }
-	
-	void Update ()
-    {
-        if(hp <= 0)
+      if(door.gameObject.activeSelf == true)
         {
-            unitstate = UNITSTATE.DEAD;
+            door.gameObject.SetActive(false);
         }
+    }
 
-      
+    void Update ()
+    {
+        Debug.DrawRay(gameObject.transform.position, Vector3.left * 6f, Color.red);
+
+
+
+        //if (Physics.Raycast(gameObject.transform.position, Vector3.left, out hit, 6f))
+        //{
+        //    if (hit.collider.tag == "Player")
+        //    {
+        //        unitstate = UNITSTATE.WALK;
+
+        //        if (playerstate == Move.PLAYERSTATE.ATTACK)
+        //        {
+        //            unitstate = UNITSTATE.DAMAGE;
+        //        }
+
+        //    }   
+        //}
+        
+
         switch (unitstate)
         {
             case UNITSTATE.IDLE:
 
-                
+                //if (target.GetComponent<Move>().playerstate == null)
+                //{
+
+                //}
+
                 break;
 
             case UNITSTATE.WALK:
@@ -69,37 +93,56 @@ public class unitSTATE : MonoBehaviour {
                 break;
 
             case UNITSTATE.DAMAGE:
+                if (hp > 0)
+                {
 
-                
+                    hp -= target.GetComponent<Move>().PlayerAtk;
+                    Debug.Log("적의 남은 체력 : " + hp);
+                    unitstate = UNITSTATE.ATTACK;
 
+                }
+
+                //if (hp <= 0)
+                //{
+                //    //unitstate = UNITSTATE.DEAD;
+                //}
                 break;
 
             case UNITSTATE.ATTACK:
+
                 STATETIME += Time.deltaTime;
-                if(STATETIME == ATTACKTIME)
+                if (STATETIME >= ATTACKTIME)
                 {
-                    
+                    STATETIME = 0f;
+                    target.GetComponent<Move>().playerstate = Move.PLAYERSTATE.DAMAGE;
+                    unitstate = UNITSTATE.ATTACK;
                 }
 
-                float distance1 = (target.position - transform.position).magnitude;
-                if (distance1 >= 2f)
+                //else if (target.GetComponent<Move>().playerstate == Move.PLAYERSTATE.ATTACK)
+                //{
+                //    unitstate = UNITSTATE.DAMAGE;
+                //}
+
+
+                float distance3 = (target.position - transform.position).magnitude;
+                if (distance3 >= 2f)
                 {
                     unitstate = UNITSTATE.WALK;
                 }
-                
+
+                //if (hit.distance <= 2f)
+                //{
+                //    unitstate = UNITSTATE.WALK;
+                //}
+
                 break;
 
             case UNITSTATE.DEAD:
 
-                if(hp == 0)
+                if (hp <= 0)
                 {
                     Destroy(gameObject);
-
-                    Door.SetActive(true);
-                }
-                else
-                {
-                    Door.SetActive(false);
+                    door.gameObject.SetActive(true);
                 }
                 
                 break;
@@ -110,9 +153,9 @@ public class unitSTATE : MonoBehaviour {
     {
         if (col.gameObject.tag == "Player") // 만약 충돌한 오브젝트의 태그가 플레이어라면
         {
-            unitstate = UNITSTATE.WALK; // 유닛스테이트를 워크로 변경한다.
+            unitstate = UNITSTATE.WALK;           
         }
-            
+                      
     }
 
     void OnTriggerExit(Collider col)

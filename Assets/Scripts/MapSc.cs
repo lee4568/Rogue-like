@@ -32,8 +32,4 @@ public class MapSc : MonoBehaviour
                 break;
         }
     }
-    void Update()
-    {
-        
-    }
 }

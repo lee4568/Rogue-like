@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DoorCs : MonoBehaviour
 {
@@ -10,7 +11,8 @@ public class DoorCs : MonoBehaviour
         if(col.gameObject.tag == "Player")
         {
             Debug.Log("이동하시겠습니까?");
-            Application.LoadLevel(1);
+            
+            SceneManager.LoadScene(1);
         }
         
     }

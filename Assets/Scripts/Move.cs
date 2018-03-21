@@ -8,31 +8,44 @@ public class Move : MonoBehaviour {
     public float AttackTime;
 
     public PLAYERSTATE playerstate;
+    public Transform target;
+    public Transform Hpbar;
 
-    Transform target;
 
-    public int hp = 10;
+
 
     float speed = 5;
-
-    public unitSTATE unitstate;
+    public int PlayerAtk;
+    public int PlayerDfe;
+    public int PlayerHp;
 
     public enum PLAYERSTATE
     {
         IDLE,
         DAMAGE,
+        DEAD,
         ATTACK
+    }
+
+    void Awake()
+    {
+        
     }
 
 	void Start ()
     {
-        unitSTATE unitstate = GetComponent<unitSTATE>();
-	}
+        target = GameObject.FindGameObjectWithTag("Enemy").transform;
+        Instantiate(Hpbar);
+        //Hpbar.localScale = PlayerHp;
+        
+    }
 	
 	
 	void Update ()
     {
-              
+
+        
+
         float x = Input.GetAxisRaw("Horizontal");
 
         transform.Translate(x * speed * Time.deltaTime, 0, 0);
@@ -51,20 +64,29 @@ public class Move : MonoBehaviour {
 
             case PLAYERSTATE.DAMAGE:
 
-                
+               if(PlayerHp > 0)
+                {
+                    PlayerHp -= target.GetComponent<unitSTATE>().EnemyAtk - PlayerDfe;
+                    
+                    Debug.Log("플레이어의 남은 체력 : " + PlayerHp);
+                    playerstate = PLAYERSTATE.IDLE;
+                }
 
                 break;
-          
+            case PLAYERSTATE.DEAD:
+
+                break;
+
             case PLAYERSTATE.ATTACK:
 
                 StateTime += Time.deltaTime;
 
                 if (StateTime >= AttackTime)
-                    {
-                      StateTime = 0f;
-                      playerstate = PLAYERSTATE.IDLE;
-                    }
-
+                {
+                    StateTime = 0f;
+                    target.GetComponent<unitSTATE>().unitstate = unitSTATE.UNITSTATE.DAMAGE;
+                    playerstate = PLAYERSTATE.IDLE;
+                }
                 break;
 
             default:
@@ -90,12 +112,12 @@ public class Move : MonoBehaviour {
         //}
     }
 
-    public void OnTriggerEnter(Collider col)
-    {
-        if(col.gameObject.tag == "Enemy")
-        {
-            target = GameObject.FindGameObjectWithTag("Enemy").transform;
-        }
-    }
-    
+    //void OnTriggerEnter()
+    //{
+    //    if(target.gameObject.tag == "Enemy")
+    //    {
+    //        Debug.Log("적 발견");
+    //    }
+    //}
+
 }
