@@ -9,7 +9,7 @@ public class Move : MonoBehaviour {
 
     public PLAYERSTATE playerstate;
     public Transform target;
-    public Transform Hpbar;
+    public GameObject Hpbar;
 
 
 
@@ -36,15 +36,12 @@ public class Move : MonoBehaviour {
     {
         target = GameObject.FindGameObjectWithTag("Enemy").transform;
         Instantiate(Hpbar);
-        //Hpbar.localScale = PlayerHp;
-        
+       
     }
 	
 	
 	void Update ()
     {
-
-        
 
         float x = Input.GetAxisRaw("Horizontal");
 
@@ -60,6 +57,15 @@ public class Move : MonoBehaviour {
                     playerstate = PLAYERSTATE.ATTACK;
                 }
 
+                if(Input.GetKeyDown(KeyCode.Z))
+                {
+                    PlayerHp += 5;
+                    if(PlayerHp >= 10)
+                    {
+                        PlayerHp = 10;
+                    }
+                }
+
                 break;
 
             case PLAYERSTATE.DAMAGE:
@@ -67,9 +73,14 @@ public class Move : MonoBehaviour {
                if(PlayerHp > 0)
                 {
                     PlayerHp -= target.GetComponent<unitSTATE>().EnemyAtk - PlayerDfe;
-                    
+                    //Hpbar.transform.localScale -= new Vector3(0.1f, transform.position.y, transform.position.z);
+
                     Debug.Log("플레이어의 남은 체력 : " + PlayerHp);
                     playerstate = PLAYERSTATE.IDLE;
+                }
+               if(PlayerHp == 0)
+                {
+                    playerstate = PLAYERSTATE.DEAD;
                 }
 
                 break;
