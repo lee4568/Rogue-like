@@ -10,6 +10,7 @@ public class unitSTATE : MonoBehaviour {
 
     public Transform door;
 
+    public GameObject BoxPrefab;
 
     public float STATETIME;
     public float ATTACKTIME;
@@ -48,6 +49,9 @@ public class unitSTATE : MonoBehaviour {
 
     void Update ()
     {
+        Debug.Log(gameObject.transform.position);
+
+
         Debug.DrawRay(gameObject.transform.position, Vector3.left * 6f, Color.red);
 
 
@@ -81,12 +85,14 @@ public class unitSTATE : MonoBehaviour {
             case UNITSTATE.WALK:
 
                 float distance = (target.position - transform.position).magnitude;
+                
                 if (distance <= 2f) // 만약 타겟과의 거리가 2보다 작을 경우 어택상태로 변경한다.
                 {
                     unitstate = UNITSTATE.ATTACK;
                 }
 
                 Vector3 dir = target.position - transform.position;
+                dir.y = 0f;
                 dir.Normalize();
                 gameObject.transform.Translate(dir * speed * Time.deltaTime);
 
@@ -102,10 +108,10 @@ public class unitSTATE : MonoBehaviour {
 
                 }
 
-                //if (hp <= 0)
-                //{
-                //    //unitstate = UNITSTATE.DEAD;
-                //}
+                if (hp <= 0)
+                {
+                    unitstate = UNITSTATE.DEAD;
+                }
                 break;
 
             case UNITSTATE.ATTACK:
@@ -139,8 +145,9 @@ public class unitSTATE : MonoBehaviour {
 
             case UNITSTATE.DEAD:
 
-                if (hp <= 0)
+                if (hp == 0)
                 {
+                    Instantiate(BoxPrefab,new Vector3(gameObject.transform.position.x,gameObject.transform.position.y,0f),Quaternion.Euler(0,0,0));
                     Destroy(gameObject);
                     door.gameObject.SetActive(true);
                 }

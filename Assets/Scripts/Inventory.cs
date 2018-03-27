@@ -24,11 +24,26 @@ public class Inventory : MonoBehaviour {
     
 	void Start ()
     {
+        float magin;
+        int m;
         for (int y = 0; y < 5; y++)
         {
             for (int x = 0; x < 4; x++)
             {
-                Vector3 slotRect = new Vector3((-InventoryBg.transform.position.x / 2f)+ 0.25f * x ,(InventoryBg.transform.position.y * 4.5f) - 0.25f * y, 0);
+                if (x > 0)
+                {
+                    magin = 1.25f;
+                }
+                else
+                {
+                    magin = 0f;
+                }
+                //if (x > 1) m = -1;
+                //else
+                m = 1;
+
+                Vector3 slotRect = new Vector3((x+0.75f)* m * 100 * m, (y+0.65f) * m * -100 *m, 0);
+                /*new Vector3((-InventoryBg.transform.position.x / 2f)+ 0.25f * x ,(InventoryBg.transform.position.y * 4.5f) - 0.25f * y, 0);*/
                 
                 //Transform newSlot = Instantiate(slot);
 
@@ -39,12 +54,16 @@ public class Inventory : MonoBehaviour {
                 //slotRect.offsetMin = Vector2.zero;
                 //slotRect.offsetMax = Vector2.zero;
 
-                Transform newSlot = Instantiate(slot, slotRect, Quaternion.Euler(0,0,0))as Transform;
-
+                Transform newSlot = Instantiate(slot)as Transform;
                 newSlot.name = "Slot" + (y + 1) + "." + (x + 1);
 
                 newSlot.parent = transform;
-                                             
+
+                newSlot.transform.localPosition = slotRect;
+                newSlot.transform.rotation = Quaternion.Euler(0, 0, 0);
+             
+                
+
                 newSlot.localScale = new Vector3(0.8f,0.8f,0.7f);
 
                 slotScripts.Add(newSlot.GetComponent<Slot>());

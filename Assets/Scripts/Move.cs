@@ -11,7 +11,7 @@ public class Move : MonoBehaviour {
     public Transform target;
     public GameObject Hpbar;
 
-
+    public Dictionary<int, int> Exp;
 
 
     float speed = 5;
@@ -86,6 +86,10 @@ public class Move : MonoBehaviour {
                 break;
             case PLAYERSTATE.DEAD:
 
+
+                Destroy(gameObject);
+
+
                 break;
 
             case PLAYERSTATE.ATTACK:
@@ -96,6 +100,10 @@ public class Move : MonoBehaviour {
                 {
                     StateTime = 0f;
                     target.GetComponent<unitSTATE>().unitstate = unitSTATE.UNITSTATE.DAMAGE;
+                    playerstate = PLAYERSTATE.IDLE;
+                }
+                else if(target == null)
+                {
                     playerstate = PLAYERSTATE.IDLE;
                 }
                 break;
