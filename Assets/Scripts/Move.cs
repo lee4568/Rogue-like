@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Move : MonoBehaviour {
 
+    private Animator anim;
+
     public float StateTime;
     public float AttackTime;
 
@@ -34,6 +36,7 @@ public class Move : MonoBehaviour {
 
 	void Start ()
     {
+        anim = GetComponent<Animator>();
         target = GameObject.FindGameObjectWithTag("Enemy").transform;
         Instantiate(Hpbar);
        
@@ -42,19 +45,21 @@ public class Move : MonoBehaviour {
 	
 	void Update ()
     {
+      
 
         float x = Input.GetAxisRaw("Horizontal");
 
         transform.Translate(x * speed * Time.deltaTime, 0, 0);
+        anim.SetFloat("Walk", x);
 
-      
         switch (playerstate)
         {
             case PLAYERSTATE.IDLE:
 
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    playerstate = PLAYERSTATE.ATTACK;
+                    anim.SetBool("Attack",true);
+                    playerstate = PLAYERSTATE.ATTACK;                   
                 }
 
                 if(Input.GetKeyDown(KeyCode.Z))
@@ -100,10 +105,12 @@ public class Move : MonoBehaviour {
                 {
                     StateTime = 0f;
                     target.GetComponent<unitSTATE>().unitstate = unitSTATE.UNITSTATE.DAMAGE;
+                    anim.SetBool("Attack", false);
                     playerstate = PLAYERSTATE.IDLE;
                 }
                 else if(target == null)
                 {
+                    anim.SetBool("Attack", false);
                     playerstate = PLAYERSTATE.IDLE;
                 }
                 break;

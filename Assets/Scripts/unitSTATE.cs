@@ -12,6 +12,8 @@ public class unitSTATE : MonoBehaviour {
 
     public GameObject BoxPrefab;
 
+
+    private Animator anime;
     public float STATETIME;
     public float ATTACKTIME;
 
@@ -41,6 +43,8 @@ public class unitSTATE : MonoBehaviour {
 
 	void Start ()
     {
+        anime = GetComponent<Animator>();
+
       if(door.gameObject.activeSelf == true)
         {
             door.gameObject.SetActive(false);
@@ -49,7 +53,7 @@ public class unitSTATE : MonoBehaviour {
 
     void Update ()
     {
-        Debug.Log(gameObject.transform.position);
+        Debug.Log(target.GetComponent<Move>().playerstate);
 
 
         Debug.DrawRay(gameObject.transform.position, Vector3.left * 6f, Color.red);
@@ -75,10 +79,16 @@ public class unitSTATE : MonoBehaviour {
         {
             case UNITSTATE.IDLE:
 
-                //if (target.GetComponent<Move>().playerstate == null)
-                //{
-
-                //}
+                if(target.GetComponent<Move>().playerstate == Move.PLAYERSTATE.IDLE)
+                {
+                    anime.SetBool("Attack", false);
+                    return;
+                }
+                else if(target.GetComponent<Move>().playerstate != Move.PLAYERSTATE.IDLE)
+                {
+                    unitstate = UNITSTATE.WALK;
+                }
+                
 
                 break;
 
@@ -101,7 +111,6 @@ public class unitSTATE : MonoBehaviour {
             case UNITSTATE.DAMAGE:
                 if (hp > 0)
                 {
-
                     hp -= target.GetComponent<Move>().PlayerAtk;
                     Debug.Log("적의 남은 체력 : " + hp);
                     unitstate = UNITSTATE.ATTACK;
@@ -119,10 +128,16 @@ public class unitSTATE : MonoBehaviour {
                 STATETIME += Time.deltaTime;
                 if (STATETIME >= ATTACKTIME)
                 {
+                    anime.SetBool("Attack", true);
                     STATETIME = 0f;
+                    
                     target.GetComponent<Move>().playerstate = Move.PLAYERSTATE.DAMAGE;
-                    unitstate = UNITSTATE.ATTACK;
+                    
+                    unitstate = UNITSTATE.IDLE;
+                    
                 }
+              
+                
 
                 //else if (target.GetComponent<Move>().playerstate == Move.PLAYERSTATE.ATTACK)
                 //{
