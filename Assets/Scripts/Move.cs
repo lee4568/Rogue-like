@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Move : MonoBehaviour {
 
+    //public static Move instance;
+
     private Animator anim;
 
     public float StateTime;
@@ -11,7 +13,7 @@ public class Move : MonoBehaviour {
 
     public PLAYERSTATE playerstate;
     public Transform target;
-    public GameObject Hpbar;
+    //public GameObject Hpbar;
 
     public Dictionary<int, int> Exp;
 
@@ -31,14 +33,14 @@ public class Move : MonoBehaviour {
 
     void Awake()
     {
-        
+        //instance = this;
     }
 
 	void Start ()
     {
         anim = GetComponent<Animator>();
         target = GameObject.FindGameObjectWithTag("Enemy").transform;
-        Instantiate(Hpbar);
+        //Instantiate(Hpbar);
        
     }
 	
@@ -62,14 +64,14 @@ public class Move : MonoBehaviour {
                     playerstate = PLAYERSTATE.ATTACK;                   
                 }
 
-                if(Input.GetKeyDown(KeyCode.Z))
-                {
-                    PlayerHp += 5;
-                    if(PlayerHp >= 10)
-                    {
-                        PlayerHp = 10;
-                    }
-                }
+                //if(Input.GetKeyDown(KeyCode.Z))
+                //{
+                //    PlayerHp += 5;
+                //    if(PlayerHp >= 10)
+                //    {
+                //        PlayerHp = 10;
+                //    }
+                //}
 
                 break;
 
@@ -145,5 +147,20 @@ public class Move : MonoBehaviour {
     //        Debug.Log("적 발견");
     //    }
     //}
+    void OnTriggerEnter(Collider col)
+    {
+        if(col.gameObject.tag == "Object")
+        {
+           int ran = Random.Range(0, 7);
+           if(ran > 0)
+            {
+                PlayerHp += 1;
+            } 
+           else if(ran > 6)
+            {
+                PlayerAtk += 1;
+            }
+        }
+    }
 
 }

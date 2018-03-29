@@ -267,7 +267,6 @@ public class UIDragDropItem : MonoBehaviour
         if (!draggedItems.Contains(this))
         {
             draggedItems.Add(this);
-            Debug.Log(draggedItems);
         }
         
 

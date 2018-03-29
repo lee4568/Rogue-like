@@ -7,6 +7,11 @@ public class BtnManager : MonoBehaviour {
     public GameObject[] Btn;
 
 
+    public void PosionBtn()
+    {
+        GetComponent<Move>().PlayerHp += 1;
+    }
+
     public void InventoryBtn()
     {
         Btn[0].SetActive(true);

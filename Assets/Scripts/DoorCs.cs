@@ -12,7 +12,7 @@ public class DoorCs : MonoBehaviour
         {
             Debug.Log("이동하시겠습니까?");
             
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(2);
         }
         
     }

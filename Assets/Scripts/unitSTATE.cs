@@ -162,7 +162,12 @@ public class unitSTATE : MonoBehaviour {
 
                 if (hp == 0)
                 {
-                    Instantiate(BoxPrefab,new Vector3(gameObject.transform.position.x,gameObject.transform.position.y,0f),Quaternion.Euler(0,0,0));
+                    int r = Random.Range(0, 7);
+                    if(r < 3)
+                    {
+                        Debug.Log(r);
+                        Instantiate(BoxPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f), Quaternion.Euler(0, 0, 0));
+                    }
                     Destroy(gameObject);
                     door.gameObject.SetActive(true);
                 }
