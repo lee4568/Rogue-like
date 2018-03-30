@@ -22,16 +22,17 @@ public class Ms : MonoBehaviour {
         {
             Physics.Raycast(ray, out hit);
             Physics.Raycast(uiray, out uihit);
+            if (hit.collider != null)
+            {
+                Debug.Log(hit.collider.name);
+            }
+            if (uihit.collider != null)
+            {
+                Debug.Log(uihit.collider.name);
+            }
         }
 
-        if (hit.collider != null)
-        {
-            Debug.Log(hit.collider.name);
-        }
-        if (uihit.collider != null)
-        {
-            Debug.Log(uihit.collider.name);
-        }
+      
     }
 }
 

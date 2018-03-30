@@ -86,6 +86,7 @@ public class unitSTATE : MonoBehaviour {
                 }
                 else if(target.GetComponent<Move>().playerstate != Move.PLAYERSTATE.IDLE)
                 {
+                    anime.SetBool("Move", true);
                     unitstate = UNITSTATE.WALK;
                 }
                 
@@ -98,6 +99,7 @@ public class unitSTATE : MonoBehaviour {
                 
                 if (distance <= 2f) // 만약 타겟과의 거리가 2보다 작을 경우 어택상태로 변경한다.
                 {
+                    anime.SetBool("Move", false);
                     unitstate = UNITSTATE.ATTACK;
                 }
 
@@ -148,6 +150,7 @@ public class unitSTATE : MonoBehaviour {
                 float distance3 = (target.position - transform.position).magnitude;
                 if (distance3 >= 2f)
                 {
+                    anime.SetBool("Move", true);
                     unitstate = UNITSTATE.WALK;
                 }
 
@@ -162,6 +165,7 @@ public class unitSTATE : MonoBehaviour {
 
                 if (hp == 0)
                 {
+                    anime.SetBool("Dead", true);
                     int r = Random.Range(0, 7);
                     if(r < 3)
                     {
@@ -180,6 +184,7 @@ public class unitSTATE : MonoBehaviour {
     {
         if (col.gameObject.tag == "Player") // 만약 충돌한 오브젝트의 태그가 플레이어라면
         {
+            anime.SetBool("Move", true);
             unitstate = UNITSTATE.WALK;           
         }
                       
@@ -189,6 +194,7 @@ public class unitSTATE : MonoBehaviour {
     {
         if (col.gameObject.tag == "Player")
         {
+            anime.SetBool("Move", false);
             unitstate = UNITSTATE.IDLE;
         }
     }
