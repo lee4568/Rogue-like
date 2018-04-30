@@ -5,6 +5,28 @@ using UnityEngine;
 public class BtnManager : MonoBehaviour {
 
     public GameObject[] Btn;
+    //public GameObject Player;
+
+
+    //void Start()
+    //{
+    //    Player.GetComponent<Move>();
+    //}
+
+    public void LeftBtn()
+    {
+       
+    }
+
+    public void RightBtn()
+    {
+
+    }
+
+    public void Escape()
+    {
+        Application.Quit();
+    }
 
     public void PosionBtn()
     {
@@ -15,6 +37,7 @@ public class BtnManager : MonoBehaviour {
     {
         Btn[0].SetActive(true);
         Btn[1].SetActive(true);
+        Btn[2].SetActive(false);
         Time.timeScale = 0;
     }
 
@@ -22,6 +45,7 @@ public class BtnManager : MonoBehaviour {
     {
         Btn[0].SetActive(false);
         Btn[1].SetActive(false);
+        Btn[2].SetActive(true);
         Time.timeScale = 1;
     }
 

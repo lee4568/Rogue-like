@@ -36,18 +36,20 @@ public class Move : MonoBehaviour {
         //instance = this;
     }
 
-	void Start ()
+    void Start()
     {
         anim = GetComponent<Animator>();
         target = GameObject.FindGameObjectWithTag("Enemy").transform;
-        //Instantiate(Hpbar);
-       
+        //Instantiate(Hpbar);  
     }
-	
 	
 	void Update ()
     {
       
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
 
         float x = Input.GetAxisRaw("Horizontal");
 
